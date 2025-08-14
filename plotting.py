@@ -266,3 +266,40 @@ def plot_kan_splines(model, feature_names=None, output_names=None, num_points=10
         plt.savefig(save_path, dpi=300, bbox_inches='tight')
 
     return fig
+    
+def plot_coupling_scatter(lr_W, lr_C, ema_W, ema_C):
+    """
+    Creates scatter plots visualizing the push-pull coupling between weights and splines.
+    
+    Args:
+        lr_W (list): Weight learning rates over epochs
+        lr_C (list): Spline coefficient learning rates over epochs
+        ema_W (list): EMA of weight changes over epochs
+        ema_C (list): EMA of spline coefficient changes over epochs
+        
+    Returns:
+        matplotlib figure: The created figure containing the plots
+    """
+    plt.figure(figsize=(12, 6))
+
+    # Left subplot: How spline changes affect weight LR
+    plt.subplot(121)
+    plt.scatter(ema_C, lr_W, alpha=0.7, c=range(len(lr_W)), cmap='viridis')
+    plt.xlabel("EMA of Spline Changes (eC)")
+    plt.ylabel("Weight Learning Rate (etaW)")
+    plt.title("Spline Changes → Weight LR")
+    plt.grid(True, alpha=0.3)
+    plt.colorbar(label="Epoch")
+
+    # Right subplot: How weight changes affect spline LR
+    plt.subplot(122)
+    plt.scatter(ema_W, lr_C, alpha=0.7, c=range(len(lr_C)), cmap='viridis')
+    plt.xlabel("EMA of Weight Changes (eW)")
+    plt.ylabel("Spline Learning Rate (etaC)")
+    plt.title("Weight Changes → Spline LR")
+    plt.grid(True, alpha=0.3)
+    plt.colorbar(label="Epoch")
+
+    plt.tight_layout()
+    return plt.gcf()
+
