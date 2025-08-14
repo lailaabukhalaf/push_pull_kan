@@ -9,7 +9,7 @@ requires-python = ">=3.9"
 dependencies = []
 
 [tool.setuptools]
-package-dir = {"" = "model"}  # code lives under model/
+package-dir = {"" = "Model"}  # code lives under model/
 
 [tool.setuptools.packages.find]
-where = ["model"]
+where = ["Model"]
